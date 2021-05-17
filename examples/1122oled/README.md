@@ -15,5 +15,5 @@ DC      ----->      GP4 (pin 6)
 CS      ----->      GP5 (pin 7)  
 
 # Photo of the display in action
-image::IMG_20210515_171731.jpg[]
+![display in action](IMG_20210515_171731.jpg)
 
