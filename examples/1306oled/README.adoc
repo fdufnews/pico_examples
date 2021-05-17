@@ -6,9 +6,9 @@ Display an image and text on I2C driven SSD1306-based OLED graphics display.
 == Wiring information
 
 See <<oled-wiring-diagram>> for wiring instructions.
-Using i2c(0) default
-SDA = GP8
-SCL = GP9
+Using i2c(0) default  
+SDA = GP8  
+SCL = GP9  
 
 [[oled-wiring-diagram]]
 [pdfwidth=75%]
