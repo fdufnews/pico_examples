@@ -3,7 +3,7 @@
 The **original** directory contains the BHC1724-Man-Riding-a-Jumping-Horse_Muybridge-CRsite.jpg image from which the images for the animation were extracted.  
 ![BHC1724-Man-Riding-a-Jumping-Horse_Muybridge-CRsite.jpg](original/BHC1724-Man-Riding-a-Jumping-Horse_Muybridge-CRsite.jpg)  
 The images have been corrected a little as they have not all the same level.  
-![image1}(image1.jpg) ![image2}(image2.jpg) ![image3}(image3.jpg) .... ![image20}(image20.jpg)
+![image1](image1.jpg) ![image2](image2.jpg) ![image3](image3.jpg) .... ![image20](image20.jpg)
 
 **imgconvert.py** is used to convert an image from jpg, bmp, png, ... (any format supported by PIL) into an Python dictionnary.  
 The dictionnary has the following keys:  
