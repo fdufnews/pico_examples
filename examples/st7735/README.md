@@ -23,7 +23,7 @@ Using SPI(0) default
 | BLK |  GP8 (pin 11) |
 
 # Display orientation
-'''
+```
  if width > height and usd = False
   _____________________
  |   o o o o o o o o   |
@@ -79,4 +79,4 @@ Using SPI(0) default
  | |________| o|
  |_____________|
 
-'''
+```

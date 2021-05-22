@@ -9,7 +9,7 @@
 #   CS      ----->      GP5 (pin 7)
 
 from machine import Pin, SPI
-from sh1122 import SH1122_SPI
+from drivers.sh1122 import SH1122_SPI
 
 
 import framebuf

@@ -1,6 +1,6 @@
 # Display Image & text on I2C driven sh1122 OLED display 
 from machine import Pin, SPI, Timer
-from sh1122 import SH1122_SPI
+from drivers.sh1122 import SH1122_SPI
 import framebuf
 import adc
 
