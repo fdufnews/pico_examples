@@ -55,11 +55,14 @@ class ST7735B(framebuf.FrameBuffer):
         return (r & 0xe0) | ((g >> 3) & 0x1c) | (b >> 6)
 
     # rst and cs are active low, SPI is mode 0
-    def __init__(self, spi, cs, dc, rst, height=80, width=160, usd=False, init_spi=False):
+    def __init__(self, spi, cs, dc, rst, blk=None, height=80, width=160, usd=False, init_spi=False):
         self._spi = spi
         self._rst = rst  # Pins
         self._dc = dc
         self._cs = cs
+        self.blk = blk
+        if (self.blk != None):
+            self.blk.freq(10000)
         self.height = height  # Required by Writer class
         self.width = width
         self._spi_init = init_spi
@@ -71,6 +74,12 @@ class ST7735B(framebuf.FrameBuffer):
         self._linebuf = bytearray(int(width * 3 // 2))  # 12 bit color out
         self._init(usd)
         self.show()
+        
+    # Manage backlight
+    # expect a value in the 0-100 range
+    def backlight(self,level):
+        if (self.blk != None):
+            self.blk.duty_ns(level * 1000)
 
     # Hardware reset
     def _hwreset(self):
