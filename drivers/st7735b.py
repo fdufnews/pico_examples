@@ -55,12 +55,13 @@ class ST7735B(framebuf.FrameBuffer):
         return (r & 0xe0) | ((g >> 3) & 0x1c) | (b >> 6)
 
     # rst and cs are active low, SPI is mode 0
-    def __init__(self, spi, cs, dc, rst, blk=None, height=80, width=160, usd=False, init_spi=False):
+    def __init__(self, spi, cs, dc, rst, blk=None, height=80, width=160, usd=False, init_spi=False, reset_tft=True):
         self._spi = spi
         self._rst = rst  # Pins
         self._dc = dc
         self._cs = cs
         self.blk = blk
+        self.reset_tft = reset_tft
         if (self.blk != None):
             self.blk.freq(10000)
         self.height = height  # Required by Writer class
@@ -83,13 +84,14 @@ class ST7735B(framebuf.FrameBuffer):
 
     # Hardware reset
     def _hwreset(self):
-        self._dc(0)
-        self._rst(1)
-        sleep_ms(1)
-        self._rst(0)
-        sleep_ms(1)
-        self._rst(1)
-        sleep_ms(1)
+        if (self.reset_tft):
+            self._dc(0)
+            self._rst(1)
+            sleep_ms(1)
+            self._rst(0)
+            sleep_ms(1)
+            self._rst(1)
+            sleep_ms(1)
 
     # Write a command, a bytes instance (in practice 1 byte).
     def _wcmd(self, buf):
