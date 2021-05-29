@@ -6,7 +6,7 @@ They are all wired in parallel.
 
  Displays are oriented this way so shall use the following parameters in the init
   width = 80, height = 160 and usd = True
-'''
+```
   _____________
  | _________   |
  | |---/ X  |  |
@@ -20,7 +20,7 @@ They are all wired in parallel.
  | |        | o|
  | |________| o|
  |_____________|
-'''
+```
 
 # Wiring
 
@@ -44,7 +44,7 @@ They are all wired in parallel.
 * test4tft.py, just the minimal script to verify that all works as expected.
 * testdigitimg.py, a more elaborated script which uses bitmaps to display the numbers. In order to limit memory use, the bitmap are encoded in RGB 3-3-2. that's not the best quality but it does the job.  
 Images are copied in the flash of the Pico in a directory with the following structure. You can have as many families as the flash can store. Each family shall have a picture for each number named digit__x__.raw with __x__ from 0 to 9.
-'''
+```
 root
     |
     |----- digits
@@ -62,7 +62,7 @@ root
     .            |         .
     .            |         |----digit8.raw
     .            |         |----digit9.raw
-'''
+```
 
 # Photo of the display
 ![with nixie pictures](counter.jpg) ![with tiles pictures](time.jpg)  
