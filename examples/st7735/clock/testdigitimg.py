@@ -51,7 +51,9 @@ IMG_HEADER = {
 "height": 2 | uctypes.UINT16
 }
 
-select = Pin(5, Pin.IN, Pin.PULL_UP)
+select0 = Pin(14, Pin.IN, Pin.PULL_UP)
+select1 = Pin(15, Pin.IN, Pin.PULL_UP)
+
 dc = Pin(3,Pin.OUT)
 cs1 = Pin(10, Pin.OUT)
 cs2 = Pin(11, Pin.OUT)
@@ -69,22 +71,25 @@ tft4 = ST7735B(SPI(0,baudrate=25000000), cs4,dc,res, blk=blkPWM, height=160, wid
  # all the blk line are wired to one GP so only one call is necessary
 tft1.backlight(100)
 
-root = 'digits' # path to the directory holding the different families of numbers
-family = ('nixie','tiles') # family of digits
+black = 0
+white = 0xff
+
+root = 'digits' # path to the directory holding the different font of numbers
+font = ('nixie','tiles','rounded','hand') # font of digits
+background = (black, white, white, white)
 digits = ('digit0','digit1','digit2','digit3','digit4','digit5','digit6','digit7','digit8','digit9')
 displays = (tft4, tft3, tft2, tft1)
 
 while (True):
-    if (select.value()):
-        family_name = family[1]
-    else:
-        family_name = family[0]
+    select = select0.value() + (select1.value()<<1)
+    font_name = font[select]
+    
     Time = localtime()
     val = Time[3] * 100 + Time[4]
     for tft in displays:
         number = val % 10
         val //=10
-        path = root + '//' + family_name + '//' + digits[number] + '.raw'
+        path = root + '//' + font_name + '//' + digits[number] + '.raw'
         with open(path, mode='rb') as f:
             buf = f.read(uctypes.sizeof(IMG_HEADER, uctypes.LITTLE_ENDIAN))
             header = uctypes.struct(uctypes.addressof(buf), IMG_HEADER, uctypes.LITTLE_ENDIAN)
@@ -94,7 +99,12 @@ while (True):
             f.readinto(buffer, width * height)
             f.close()
             fb = framebuf.FrameBuffer(buffer,width,height, framebuf.GS8)
+            tft.fill(background[select])
             tft.blit(fb, (tft.width-width)//2, (tft.height-height)//2)
             tft.show()
+    # wait for the 00 second to end
+    while (localtime()[5]==00):
+        sleep_ms(250)
+    # wait for the start of the next minute
     while (localtime()[5]!=00):
         sleep_ms(250)

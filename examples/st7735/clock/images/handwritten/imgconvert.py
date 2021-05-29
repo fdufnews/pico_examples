@@ -24,6 +24,11 @@ im = im.convert(mode='RGB')
 width = args.width
 height = args.height
 
+# compute resize argument in order to fill the screen as much as possible and keep image ratio
+coef = max(im.width/width, im.height/height)
+width = int(im.width/coef)
+height = int(im.height/coef)
+
 # create a thumbnail the right size
 newim = im.resize((width, height), Image.ANTIALIAS)
 
