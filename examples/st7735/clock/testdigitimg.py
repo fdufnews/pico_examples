@@ -44,6 +44,7 @@ from machine import Pin, SPI, PWM
 from utime import localtime, sleep_ms
 import framebuf
 import uctypes
+import gc
 
 # defines header format of image file
 IMG_HEADER = {
@@ -105,6 +106,7 @@ while (True):
     # wait for the 00 second to end
     while (localtime()[5]==00):
         sleep_ms(250)
+    gc.collect()  # we have a huge amount of time to collect garbage here
     # wait for the start of the next minute
     while (localtime()[5]!=00):
         sleep_ms(250)
