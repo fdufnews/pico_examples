@@ -85,8 +85,8 @@ root
 There must be one picture for each number.  
 The pictures shall be named digitx.raw with x in the range 0 to 9. They have the following content  
 * a header with width and height of the image on 2 16 bits integers
-* data in binary form. There is byte for each pixel. Colors are coded RRRGGGBB
-The process for generating the raw images is:
+* data in binary form. There is byte for each pixel. Colors are coded RRRGGGBB  
+The process for generating the raw images is:  
 * The source pictures can be any size.  
 * The pictures shall be well contrasted as they are encoded in RGB 3-3-2
 * You shall copy convbash.sh and imgconvert.py in the directory were the images are.  
