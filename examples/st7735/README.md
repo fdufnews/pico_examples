@@ -1,6 +1,6 @@
 # ST7735b
 
-Test the driver for a TFT screen usin an ST7735 driver  
+Scripts to test the driver for a TFT screen usin an ST7735 driver  
 This driver is using Peter Hinch st7735r.py driver as a base  
 This driver is writen for a 0.96" 80 x 160 display (with blue tab) and tested on that display  
 The specificities of that display are:  

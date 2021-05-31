@@ -1,7 +1,7 @@
 # Clock
 
-This a attempt to make a faaux nixie clock (or kind of).  
-This mockup uses 4 little 80x160 pixels displays using a st7735 driver.  
+This is an attempt to make a faux nixie clock (or kind of).  
+This mockup uses 4 little 80x160 pixels displays with a st7735 driver.  
 They are all wired in parallel.
 
  Displays are oriented this way so shall use the following parameters in the init
@@ -44,13 +44,16 @@ GP14 and GP15 are used to select one of the "font"
 
 
 # scripts
-* test4tft.py, just the minimal script to verify that all works as expected.
-* testdigitimg.py, a more elaborated script which uses bitmaps to display the numbers. In order to limit memory use, the bitmap are encoded in RGB 3-3-2. that's not the best quality but it does the job.  
+* **test4tft.py**, just the minimal script to verify that all works as expected.
+* **testdigitimg.py**, a more elaborated script which uses bitmaps to display the numbers. In order to limit memory use, the bitmap are encoded in RGB 3-3-2. that's not the best quality but it does the job.  
+* **clock**, an evolution of testdigitimg.py. Added some new faces, a rotary encoder for configuration. There is place for improvement....  
 Images are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ from 0 to 9.
 ```
 root
     |
-    |----- digits
+    |------drivers 
+    |
+    |-----digits
     .            |
     .            |----nixie
     .            |         |--- digit0.raw
@@ -80,16 +83,19 @@ root
 # creation of the fonts
 
 There must be one picture for each number.  
-The pictures shall be named digitx.jpg with x in the range 0 to 9.  
-The source pictures can be any size.  
-The pictures shall be well contrasted as they are encoded in RGB 3-3-2
-You shall copy convbash.sh and imgconvert.py in the directory.  
-* convbash.sh will scan the directory for all the jpg files and call imgconvert.py with the proper arguments. If the source pictures are in another format the bash can be modified.  
-* imgconvert.py will resize the picture in order to maximize the use of the screen but preserving the aspect ratio.  
+The pictures shall be named digitx.raw with x in the range 0 to 9. They have the following content  
+* a header with width and height of the image on 2 16 bits integers
+* data in binary form. There is byte for each pixel. Colors are coded RRRGGGBB
+The process for generating the raw images is:
+* The source pictures can be any size.  
+* The pictures shall be well contrasted as they are encoded in RGB 3-3-2
+* You shall copy convbash.sh and imgconvert.py in the directory were the images are.  
+  * convbash.sh will scan the directory for all the jpg files and call imgconvert.py with the proper arguments. If the source pictures are in another format the bash can be modified.  
+  * imgconvert.py will resize the picture in order to maximize the use of the screen but preserving the aspect ratio.  
 if called directly, imgconvert expects the following parameters  
 imgconvert inputfile outputfile width height  
 ex : imgconvert digit0.jpg digit0.raw 80 160  
-The inputfile can be any format recognized by PIL (Python Imaging Library)  
+* The inputfile can be any format recognized by PIL (Python Imaging Library)  
 
 # Photo of the display
 ![with nixie pictures](counter.jpg) ![with tiles pictures](time.jpg)  
