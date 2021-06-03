@@ -44,10 +44,11 @@ GP14 and GP15 are used to select one of the "font"
 
 
 # scripts
-* **test4tft.py**, just the minimal script to verify that all works as expected.
+* **test4tft.py**, just the minimal script to verify that all works as expected.  
 * **testdigitimg.py**, a more elaborated script which uses bitmaps to display the numbers. In order to limit memory use, the bitmap are encoded in RGB 3-3-2. that's not the best quality but it does the job.  
 * **clock**, an evolution of testdigitimg.py. Added some new faces, a rotary encoder for configuration. There is place for improvement....  
-Images are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ from 0 to 9.
+The rotary encoder gives access to a configuration menu in which the user can select the face of the numbers, or set the time.  
+Images are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ from 0 to 9.  
 ```
 root
     |
