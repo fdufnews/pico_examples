@@ -52,10 +52,10 @@ For the clock, the following are added:
 * **clock**, an evolution of testdigitimg.py. Added some new faces, a rotary encoder for configuration. The brightness of the displays is adapted to the illumination of the room measured by the LDR. The VSYS voltage is measured and the display brightness is lowered when battery level is too low.   
 The switch on rotary encoder, when pushed, gives access to a configuration menu.  
 The menu gives access to some options:  
-- **Faces**, can be used to select the face of the numbers,
-- **Set time**, can be used to set time time,
-- **Battery**, displays the voltage at VSYS
-- **Quit**, returns to the normal display
+    - **Faces**, can be used to select the face of the numbers,
+    - **Set time**, can be used to set time time,
+    - **Battery**, displays the voltage at VSYS
+    - **Quit**, returns to the normal display
 
 Images for the faces are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ from 0 to 9.  
 ```
