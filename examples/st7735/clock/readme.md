@@ -40,15 +40,24 @@ They are all wired in parallel.
 |   CS4   | GP13       | pin 17    | 
 |   BLK   | GP8        | pin 11    |
 
-GP14 and GP15 are used to select one of the "font"
+For the clock, the following are added:
+- GP14 and GP15 are used to select one of the "font" with a rotary encoder
+- GP16 is connected to the switch of the rotary encoder
+- An LDR is connected between 3,3V(out) and A0 (GP26), a 10k resistor between A0 and GND
 
 
 # scripts
 * **test4tft.py**, just the minimal script to verify that all works as expected.  
 * **testdigitimg.py**, a more elaborated script which uses bitmaps to display the numbers. In order to limit memory use, the bitmap are encoded in RGB 3-3-2. that's not the best quality but it does the job.  
-* **clock**, an evolution of testdigitimg.py. Added some new faces, a rotary encoder for configuration. There is place for improvement....  
-The rotary encoder gives access to a configuration menu in which the user can select the face of the numbers, or set the time.  
-Images are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ from 0 to 9.  
+* **clock**, an evolution of testdigitimg.py. Added some new faces, a rotary encoder for configuration. The brightness of the displays is adapted to the illumination of the room measured by the LDR. The VSYS voltage is measured and the display brightness is lowered when battery level is too low.   
+The switch on rotary encoder, when pushed, gives access to a configuration menu.  
+The menu gives access to some options:  
+- **Faces**, can be used to select the face of the numbers,
+- **Set time**, can be used to set time time,
+- **Battery**, displays the voltage at VSYS
+- **Quit**, returns to the normal display
+
+Images for the faces are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ from 0 to 9.  
 ```
 root
     |
