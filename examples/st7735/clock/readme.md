@@ -49,7 +49,7 @@ For the clock, the following are added:
 # scripts
 * **test4tft.py**, just the minimal script to verify that all works as expected.  
 * **testdigitimg.py**, a more elaborated script which uses bitmaps to display the numbers. In order to limit memory use, the bitmap are encoded in RGB 3-3-2. that's not the best quality but it does the job.  
-* **clock**, an evolution of testdigitimg.py. Added some new faces, a rotary encoder for configuration. The brightness of the displays is adapted to the illumination of the room measured by the LDR. The VSYS voltage is measured and the display brightness is lowered when battery level is too low.   
+* **clock**, an evolution of testdigitimg.py. Added some new faces, a rotary encoder for configuration. The brightness of the displays is adapted to the illumination of the room measured by the LDR. The VSYS voltage is measured and the display brightness is lowered when battery level is too low.  
 The switch on rotary encoder, when pushed, gives access to a configuration menu.  
 The menu gives access to some options:  
     - **Faces**, can be used to select the face of the numbers,
@@ -57,7 +57,7 @@ The menu gives access to some options:
     - **Battery**, displays the voltage at VSYS
     - **Quit**, returns to the normal display
 
-Images for the faces are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ from 0 to 9.  
+Images for the faces are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ ranging from 0 to 9.  
 ```
 root
     |
@@ -95,7 +95,7 @@ root
 There must be one picture for each number.  
 The pictures shall be named digitx.raw with x in the range 0 to 9. They have the following content  
 * a header with width and height of the image on 2 16 bits integers
-* data in binary form. There is byte for each pixel. Colors are coded RRRGGGBB  
+* data in binary form. There is a byte for each pixel. Colors are coded RRRGGGBB  
 The process for generating the raw images is:  
 * The source pictures can be any size.  
 * The pictures shall be well contrasted as they are encoded in RGB 3-3-2
