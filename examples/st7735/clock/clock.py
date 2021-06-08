@@ -49,6 +49,8 @@ import uctypes
 import gc
 import adc
 
+version = '1.1'
+
 # defines header format of image file
 IMG_HEADER = {
 "width": 0 | uctypes.UINT16,
@@ -178,14 +180,17 @@ def menu_faces():
             update_display(displays[1:4], 123)
     button_pressed = False
 
-def get_bat():
+def infos():
     global button_pressed
     
     tft4.fill(white)
+    tft4.text('Battery', 12, 10, black)
+    tft4.text('LDR', 24, 50, black)
+    tft4.text('Version', 12, 90, black)
+    tft4.text('V'+version, 20, 105, green_m)
     bat = adc.VSYS()
-    tft4.text('Battery', 8, 10, black)
-    tft4.text(str(bat)[:4], 20, 30, black)
     tft4.show()
+    
     while (not button_released):
         sleep(50)
     while (not button_pressed):
@@ -197,12 +202,17 @@ def get_bat():
             color = orange
         else:
             color = green_m
-        tft4.fill_rect(20, 30, 60, 38, white)
-        tft4.text(str(bat)[:4], 20, 30, color)
+        tft4.fill_rect(20, 25, 60, 8, white)
+        tft4.text(str(bat)[:4], 20, 25, color)
+        
+        backlight = int(adc.raw(lum)/65535*100)
+        tft4.fill_rect(20, 65, 60, 8, white)
+        tft4.text(str(backlight)[:4], 28, 65, green_m)
+        
         tft4.show()
     button_pressed = False
 
-main_menu = ({'item':'Faces', 'func':menu_faces}, {'item':'Set time', 'func':set_time}, {'item':'Battery', 'func':get_bat}, {'item':'Quit', 'func':None})
+main_menu = ({'item':'Faces', 'func':menu_faces}, {'item':'Set time', 'func':set_time}, {'item':'Infos', 'func':infos}, {'item':'Quit', 'func':None})
 
 
 def menu( dictionary):
@@ -241,7 +251,7 @@ def set_backlight():
         backlight >> 1
     if (backlight <= 0):
         backlight = 1
-    tft1.backlight(backlight)
+    tft1.backlight(backlight, False)
 
 def update_display(disp_list, value):
     font_name = font[selected_face]

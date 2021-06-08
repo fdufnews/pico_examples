@@ -78,9 +78,19 @@ class ST7735B(framebuf.FrameBuffer):
         
     # Manage backlight
     # expect a value in the 0-100 range
-    def backlight(self,level):
+    def backlight(self,level, linear = True):
         if (self.blk != None):
-            self.blk.duty_ns(level * 1000)
+            if ( not linear):
+                if (level < 10):
+                    self.blk.duty_ns(level * 100)
+                elif (level < 25):
+                    self.blk.duty_ns(level * 200)
+                elif (level < 50):
+                    self.blk.duty_ns(level * 500)
+                else:
+                    self.blk.duty_ns(level * 1000)
+            else:
+                self.blk.duty_ns(level * 1000)
 
     # Hardware reset
     def _hwreset(self):
