@@ -54,7 +54,7 @@ The switch on rotary encoder, when pushed, gives access to a configuration menu.
 The menu gives access to some options:  
     - **Faces**, can be used to select the face of the numbers,
     - **Set time**, can be used to set time time,
-    - **Battery**, displays the voltage at VSYS
+    - **Infos**, displays the voltage at VSYS, the value of the backlight parameter, application version
     - **Quit**, returns to the normal display
 
 Images for the faces are copied in the flash of the Pico in a directory with the following structure. You can have as many fonts as the flash can store. Each font shall have a picture for each number named digit__x__.raw with __x__ ranging from 0 to 9.  
