@@ -49,7 +49,7 @@ import uctypes
 import gc
 import adc
 
-version = '1.1'
+version = '1.1a'
 
 # defines header format of image file
 IMG_HEADER = {
@@ -61,6 +61,7 @@ val = 0
 selected_face = 0
 button_pressed = False
 button_released = True
+low_power = False
 
 white = ST7735B.rgb(255,255,255)
 yellow = ST7735B.rgb(255,255,0)
@@ -73,6 +74,7 @@ black = ST7735B.rgb(0, 0, 0)
 
 
 def rotary_changed(change):
+# manage rotary encoder increment or decrement val set button position
     global val, button_pressed
     
     if change == Rotary.ROT_CW:
@@ -87,6 +89,7 @@ def rotary_changed(change):
 
 
 def set_time():
+# set time and update embedded RTC
     global selected_face, button_pressed, val
     
     tft4.fill(white)
@@ -154,6 +157,7 @@ def set_time():
 
 
 def menu_faces():
+# select a new face for the digits
     global selected_face, button_pressed, val
     
     tft4.fill(white)
@@ -181,6 +185,7 @@ def menu_faces():
     button_pressed = False
 
 def infos():
+# display infos on the equipment
     global button_pressed
     
     tft4.fill(white)
@@ -216,6 +221,7 @@ main_menu = ({'item':'Faces', 'func':menu_faces}, {'item':'Set time', 'func':set
 
 
 def menu( dictionary):
+# menu manager display a menu and call function associated to the selection
     global selected_face, button_pressed, val
     
     while (not button_released):
@@ -244,16 +250,22 @@ def menu( dictionary):
         dictionary[val]['func']()
 
 def set_backlight():
+# manage backlight of he display
+    global low_power
     backlight = int(adc.raw(lum)/65535*100)
-    if (adc.VSYS() < 3.2):
-        backlight = 0
-    if (adc.VSYS() < 3.4):
+    bat = adc.VSYS()
+    if (bat < 3.3):
+        low_power = True
+    if (bat > 3.5):
+        low_power = False
+    if (low_power):
         backlight >> 1
-    if (backlight <= 0):
+    if ((bat < 3.2) or (backlight <= 0)):
         backlight = 1
     tft1.backlight(backlight, False)
 
 def update_display(disp_list, value):
+# update the time on the displays
     font_name = font[selected_face]
     
     for tft in disp_list:
