@@ -79,6 +79,11 @@ class SH1122(framebuf.FrameBuffer):
         self.write_cmd(SET_CONTRAST)
         self.write_cmd(contrast)
 
+    def flip(self): # Rotates the display 180 degrees
+        self.write_cmd(SET_DISP_START_LINE | 0x20)
+        self.write_cmd(0XA1)
+        self.write_cmd(0XC8)
+
     def invert(self, invert):
         self.write_cmd(SET_NORM_INV | (invert & 1))
 
