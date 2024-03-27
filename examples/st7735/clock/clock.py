@@ -49,7 +49,7 @@ import uctypes
 import gc
 import adc
 
-version = '1.1a'
+version = '1.1b'
 
 # defines header format of image file
 IMG_HEADER = {
@@ -62,6 +62,7 @@ selected_face = 0
 button_pressed = False
 button_released = True
 low_power = False
+backlight = 100
 
 white = ST7735B.rgb(255,255,255)
 yellow = ST7735B.rgb(255,255,0)
@@ -187,6 +188,7 @@ def menu_faces():
 def infos():
 # display infos on the equipment
     global button_pressed
+    global backlight
     
     tft4.fill(white)
     tft4.text('Battery', 12, 10, black)
@@ -209,8 +211,9 @@ def infos():
             color = green_m
         tft4.fill_rect(20, 25, 60, 8, white)
         tft4.text(str(bat)[:4], 20, 25, color)
-        
-        backlight = int(adc.raw(lum)/65535*100)
+    
+        #backlight = int(backlight * 0.005 + adc.raw(lum)/65535*100 * 0.995)
+        get_light_level()
         tft4.fill_rect(20, 65, 60, 8, white)
         tft4.text(str(backlight)[:4], 28, 65, green_m)
         
@@ -249,10 +252,21 @@ def menu( dictionary):
             break
         dictionary[val]['func']()
 
+def get_light_level():
+    global backlight
+    
+    level = 0
+    for i in range(32):
+        level += adc.raw(lum)
+    level >>=5
+    backlight = backlight * 0.05 + level/65535*100 * 0.95
+
 def set_backlight():
-# manage backlight of he display
+# manage backlight of the display
     global low_power
-    backlight = int(adc.raw(lum)/65535*100)
+    global backlight
+    
+    #backlight = int(backlight * 0.005 + adc.raw(lum)/65535*100 * 0.995)
     bat = adc.VSYS()
     if (bat < 3.3):
         low_power = True
@@ -262,7 +276,7 @@ def set_backlight():
         backlight >> 1
     if ((bat < 3.2) or (backlight <= 0)):
         backlight = 1
-    tft1.backlight(backlight, False)
+    tft1.backlight(int(backlight), False)
 
 def update_display(disp_list, value):
 # update the time on the displays
@@ -311,6 +325,7 @@ tft4 = ST7735B(SPI(0,baudrate=25000000), cs4,dc,res, blk=blkPWM, height=160, wid
  # all the blk line are wired to one GP so only one call is necessary
 #backlight = int(adc.raw(lum)/65535*100)
 #tft1.backlight(backlight)
+get_light_level()
 set_backlight()
 
 root = 'digits' # path to the directory holding the different font of numbers
@@ -331,9 +346,13 @@ while (True):
         sleep_ms(250)
     gc.collect()  # we have a huge amount of time to collect garbage here
     # wait for the start of the next minute
+    sec = localtime()[5]
     while (localtime()[5]!=00):
         if button_pressed:
             menu(main_menu)
             break
-        set_backlight()
+        if (sec != localtime()[5]):
+            sec = localtime()[5]
+            get_light_level()
+            set_backlight()
         sleep_ms(250)

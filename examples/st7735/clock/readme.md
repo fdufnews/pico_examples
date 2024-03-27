@@ -108,5 +108,5 @@ ex : imgconvert digit0.jpg digit0.raw 80 160
 * The inputfile can be any format recognized by PIL (Python Imaging Library)  
 
 # Photo of the display
-![piture of some faces](clockfaces2.jpg)  
+![picture of some faces](clockfaces2.jpg)  
 more to come
